@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="LibraryDB@localhost" uuid="acfa34d8-82de-4985-bff3-f641a619b570">
-      <driver-ref>derby.remote</driver-ref>
+    <data-source source="LOCAL" name="sche@db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com" uuid="8aa9c14b-b59f-4142-99be-fdbb25780b2d">
+      <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby://localhost:1527/LibraryDB;create=true</jdbc-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche</jdbc-url>
     </data-source>
   </component>
 </project>

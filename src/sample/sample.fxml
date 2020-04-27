@@ -1,8 +1,18 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Label layoutX="39.0" layoutY="32.0" text="Welcome to the UH Library System. Please log in." />
+      <Label layoutX="39.0" layoutY="111.0" text="Cougar ID" />
+      <Label layoutX="39.0" layoutY="149.0" text="Password" />
+      <TextField fx:id="textfieldusername" layoutX="95.0" layoutY="107.0" />
+      <TextField fx:id="textfieldpassword" layoutX="95.0" layoutY="145.0" />
+      <Button fx:id="login" layoutX="190.0" layoutY="203.0" mnemonicParsing="false" onAction="#login" text="Submit" />
+      <Label fx:id="invalidlabel" layoutX="50.0" layoutY="243.0" text="Invalid Cougar ID" visible="false" />
+   </children>
+</AnchorPane>
