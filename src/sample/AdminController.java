@@ -10,12 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.sql.*;
 
-public class AdminController {
-
+public class AdminController { 
 
     public Button mainmenubutton;
     public TableView tv1;
@@ -30,13 +28,11 @@ public class AdminController {
     public TextField textfieldAuthor;
     public Button buttonuserswitch;
 
-
     public void initialize() throws ClassNotFoundException, SQLException {
         data = FXCollections.observableArrayList();
         final String DB_URL = "jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche";
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = DriverManager.getConnection(DB_URL, "WeberUH", "rootadmin");
-
         view();
 
         create.setOnAction(ActionEvent ->{
@@ -44,7 +40,8 @@ public class AdminController {
                 String title = textfieldTitle.getText();
                 String Author = textfieldAuthor.getText();
                 String Location = textfieldCallNumber.getText();
-                String Quantity = textfieldQuantity.getText(); //maybe force integer here
+                String Q = textfieldQuantity.getText();
+                int Quantity= Integer.parseInt(Q.trim());
                 PreparedStatement stmt = null;
                 stmt = conn.prepareStatement("INSERT INTO LIBRARY ( Title_of_Media, Author, Location, Type_of_media, Quantity) VALUES (?,?,?,?,?)");
                 stmt.setString(1, title);
@@ -56,7 +53,7 @@ public class AdminController {
                 else{
                     stmt.setString(4, "Media");
                 }
-                stmt.setString(5, Quantity);
+                stmt.setInt(5, Quantity);
                 stmt.executeUpdate();
                 System.out.println("record inserted into table");
                 view();

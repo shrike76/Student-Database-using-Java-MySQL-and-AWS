@@ -3,7 +3,7 @@ package sample;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeofUser {
+public class TypeofUser { //this class is for global modifiers
     public static String usertype = "";
     public static int itemlimit;
     public static int medialimit;
@@ -50,7 +50,6 @@ public class TypeofUser {
     public List<Integer> getCheckedOutArray() {
         return checkedOutArray;
     }
-
 }
 
 

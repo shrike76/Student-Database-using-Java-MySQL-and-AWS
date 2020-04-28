@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.sql.*;
 
@@ -63,7 +62,6 @@ public class CheckedOutController extends TypeofUser {
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-
 
     }
     public void mainmenu() throws IOException {

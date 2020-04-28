@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.*;
 
@@ -30,7 +29,7 @@ public class Controller extends TypeofUser{
             ResultSet rs = stmt.executeQuery();
             rs.last();
 
-            if (rs.getRow() != 0) { //https://www.rgagnon.com/javadetails/java-0292.html
+            if (rs.getRow() != 0) { //some code used from https://www.rgagnon.com/javadetails/java-0292.html
                 rs.beforeFirst();
                 rs.next();
                 int item = rs.getInt("Total_Item_Limit");
@@ -47,6 +46,7 @@ public class Controller extends TypeofUser{
                     Scene scene = new Scene(root2);
                     stage.setScene(scene);
                 }
+
                 else{
                     Parent root3 = FXMLLoader.load(getClass().getResource("view.fxml"));
                     Stage stage = (Stage) login.getScene().getWindow();
@@ -57,9 +57,6 @@ public class Controller extends TypeofUser{
             else{
                 invalidlabel.setVisible(true);
             }
-
-
-
         } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

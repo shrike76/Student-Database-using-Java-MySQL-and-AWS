@@ -8,16 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ViewController extends TypeofUser{ //view code borrowed from https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data and my assignment 2
+
+public class ViewController extends TypeofUser{
     public Button mainmenubutton;
     public TableView tv1;
     public ObservableList<ObservableList> data;
@@ -30,22 +27,23 @@ public class ViewController extends TypeofUser{ //view code borrowed from https:
     public Label errorquantitycheck;
     public Label errorcheckedout;
     public Button viewcheckedoutbutton;
-
     private int mediacount = 0;
     private int itemcount = 0;
 
 
-    public void initialize() throws ClassNotFoundException, SQLException  {
+    public void initialize() throws ClassNotFoundException, SQLException  { //inserting a database table into a javafx table view code borrowed from https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data and my assignment 2
         if (getUserType().equals("faculty")){
             labeldisplaylimits.setText("As a(n) " + getUserType() + " you are allowed " + "infinite" + " media items and " + "infinite" + " total items");
         }
         else{
             labeldisplaylimits.setText("As a(n) " + getUserType() + " you are allowed " + getmedialimit() + " media items and " + getitemlimit() + " total items");
         }
+
         data = FXCollections.observableArrayList();
         final String DB_URL = "jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche";
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = DriverManager.getConnection(DB_URL, "WeberUH", "rootadmin");
+
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT * from LIBRARY");
             ResultSet rs = stmt.executeQuery();
@@ -79,10 +77,6 @@ public class ViewController extends TypeofUser{ //view code borrowed from https:
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-
-
-
-
     }
 
     public void add() throws ClassNotFoundException, SQLException {
