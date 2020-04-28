@@ -20,54 +20,48 @@ public class Controller extends TypeofUser{
 
     public void login() {
         try {
+            getcartarray().clear();
             String user = textfieldusername.getText();
-            if (user.equals("1111111")) { //under graduates
-                setUserType("undergraduate");
-                setItemlimit(5);
-                setmedialimit(3);
-                System.out.println(getUserType() + getitemlimit() + getmedialimit());
-            } else if (user.equals("1111112")) { //graduates
-                setUserType("graduate");
-                setItemlimit(8);
-                setmedialimit(6);
-            } else if (user.equals("1111113")) { //faculty
-                setUserType("faculty");
-                setItemlimit(-1);
-                setmedialimit(-1);
-            } else if (user.equals("1111114")) { //staff
-                setUserType("staff");
-                setItemlimit(8);
-                setmedialimit(6);
-            } else if (user.equals("1111115")) { //Alumni
-                setUserType("Alumni");
-                setItemlimit(4);
-                setmedialimit(2);
-            } else if (user.equals("admin")) { //admin
-                Parent root2 = FXMLLoader.load(getClass().getResource("admin.fxml"));
-                Stage stage = (Stage) login.getScene().getWindow();
-                Scene scene = new Scene(root2);
-                stage.setScene(scene);
-            } else {
-                invalidlabel.setVisible(true);
-            }
-            Parent root3 = FXMLLoader.load(getClass().getResource("view.fxml"));
-            Stage stage = (Stage) login.getScene().getWindow();
-            Scene scene = new Scene(root3);
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public void initialize() {
-        try{
             final String DB_URL = "jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche";
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_URL, "WeberUH", "rootadmin");
-            Statement stmt = conn.createStatement();
+            PreparedStatement stmt = conn.prepareStatement("Select * from USERS where CougarID = ?");
+            stmt.setString(1, user);
+            ResultSet rs = stmt.executeQuery();
+            rs.last();
 
-        } catch (SQLException | ClassNotFoundException e) {
+            if (rs.getRow() != 0) { //https://www.rgagnon.com/javadetails/java-0292.html
+                rs.beforeFirst();
+                rs.next();
+                int item = rs.getInt("Total_Item_Limit");
+                int media = rs.getInt("Media_Item_Limit");
+                String userType = rs.getString("User_Type");
+                setItemlimit(item);
+                setmedialimit(media);
+                setUserName(user);
+                setUserType(userType);
+
+                if (userType.equals("admin")) { //admin
+                    Parent root2 = FXMLLoader.load(getClass().getResource("admin.fxml"));
+                    Stage stage = (Stage) login.getScene().getWindow();
+                    Scene scene = new Scene(root2);
+                    stage.setScene(scene);
+                }
+                else{
+                    Parent root3 = FXMLLoader.load(getClass().getResource("view.fxml"));
+                    Stage stage = (Stage) login.getScene().getWindow();
+                    Scene scene = new Scene(root3);
+                    stage.setScene(scene);
+                }
+            }
+            else{
+                invalidlabel.setVisible(true);
+            }
+
+
+
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            System.out.println("Table already exists");
         }
     }
 }

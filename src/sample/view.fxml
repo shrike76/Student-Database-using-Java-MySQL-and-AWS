@@ -12,11 +12,14 @@
       <Button fx:id="mainmenubutton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#mainmenu" text="Exit to Main Menu" />
       <Label layoutX="609.0" layoutY="22.0" text="Select the ISBN of the item you wish to check out " />
       <Label layoutX="609.0" layoutY="60.0" text="ISBN" />
-      <TextField layoutX="667.0" layoutY="56.0" />
-      <Label layoutX="609.0" layoutY="94.0" text="Quantity" />
-      <TextField layoutX="667.0" layoutY="90.0" />
+      <TextField fx:id="textfieldISBN" layoutX="667.0" layoutY="56.0" />
       <Label fx:id="labeldisplaylimits" layoutX="502.0" layoutY="365.0" />
-      <Button fx:id="add" layoutX="782.0" layoutY="128.0" mnemonicParsing="false" onAction="#add" text="Add" />
+      <Button fx:id="add" layoutX="778.0" layoutY="98.0" mnemonicParsing="false" onAction="#add" text="Add" />
       <Button fx:id="cart" layoutX="816.0" layoutY="325.0" mnemonicParsing="false" onAction="#cart" text="See Cart" />
+      <Label fx:id="erroroverlimit" layoutX="609.0" layoutY="143.0" visible="false" />
+      <Label fx:id="erroritemcheck" layoutX="608.0" layoutY="182.0" text="Error, item already in cart" visible="false" />
+      <Label fx:id="errorquantitycheck" layoutX="608.0" layoutY="221.0" text="Error, that item is not available" visible="false" />
+      <Label fx:id="errorcheckedout" layoutX="608.0" layoutY="262.0" text="Error, item already checked out" visible="false" />
+      <Button fx:id="viewcheckedoutbutton" layoutX="134.0" layoutY="361.0" mnemonicParsing="false" onAction="#viewcheckedoutbutton" text="View Checked out items" />
    </children>
 </AnchorPane>

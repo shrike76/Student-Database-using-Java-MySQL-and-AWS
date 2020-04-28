@@ -7,25 +7,41 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewController extends TypeofUser{ //view code borrowed from https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data and my assignment 2
     public Button mainmenubutton;
     public TableView tv1;
     public ObservableList<ObservableList> data;
     public Label labeldisplaylimits;
+    public Button add;
+    public Button cart;
+    public TextField textfieldISBN;
+    public Label erroroverlimit;
+    public Label erroritemcheck;
+    public Label errorquantitycheck;
+    public Label errorcheckedout;
+    public Button viewcheckedoutbutton;
+
+    private int mediacount = 0;
+    private int itemcount = 0;
 
 
     public void initialize() throws ClassNotFoundException, SQLException  {
-        labeldisplaylimits.setText("As a(n) " + getUserType() + " you are allowed " + getmedialimit() + " media items and " + getitemlimit() + " total items"); //still broken
+        if (getUserType().equals("faculty")){
+            labeldisplaylimits.setText("As a(n) " + getUserType() + " you are allowed " + "infinite" + " media items and " + "infinite" + " total items");
+        }
+        else{
+            labeldisplaylimits.setText("As a(n) " + getUserType() + " you are allowed " + getmedialimit() + " media items and " + getitemlimit() + " total items");
+        }
         data = FXCollections.observableArrayList();
         final String DB_URL = "jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche";
         Class.forName("com.mysql.jdbc.Driver");
@@ -58,6 +74,7 @@ public class ViewController extends TypeofUser{ //view code borrowed from https:
 
             }
             tv1.setItems(data);
+            getUsersCheckedOut(getUserName());
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error on Building Data");
@@ -65,6 +82,71 @@ public class ViewController extends TypeofUser{ //view code borrowed from https:
 
 
 
+
+    }
+
+    public void add() throws ClassNotFoundException, SQLException {
+        String I = textfieldISBN.getText();
+        int ISBN = Integer.parseInt(I.trim());
+        final String DB_URL = "jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche";
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(DB_URL, "WeberUH", "rootadmin");
+        PreparedStatement stmt = null;
+        stmt = conn.prepareStatement("select ISBN, Type_of_media, Quantity from LIBRARY where ISBN = ?");
+        stmt.setInt(1, ISBN);
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+        String mediaType = rs.getString("Type_of_Media");
+        int Quantity = rs.getInt("Quantity");
+        int medialimit = getmedialimit();
+        int itemlimit = getitemlimit();
+        if (!getCheckedOutArray().contains(ISBN)) {
+            errorcheckedout.setVisible(false);
+            if (Quantity > 0) {
+                errorquantitycheck.setVisible(false);
+                if (!getcartarray().contains(ISBN)) {
+                    erroritemcheck.setVisible(false);
+                    if (mediaType.equals("Media")) {
+                        if (medialimit > mediacount || medialimit == -1) {
+                            mediacount++;
+                            getcartarray().add(ISBN);
+                            erroroverlimit.setVisible(false);
+                        } else {
+                            erroroverlimit.setVisible(true);
+                        }
+                    } else if (mediaType.equals("Book")) {
+                        if (itemlimit > itemcount || itemlimit == -1) {
+                            itemcount++;
+                            getcartarray().add(ISBN);
+                            erroroverlimit.setVisible(false);
+                        } else {
+                            erroroverlimit.setVisible(true);
+                        }
+                    }
+                } else {
+                    erroritemcheck.setVisible(true);
+                }
+            } else {
+                errorquantitycheck.setVisible(true);
+            }
+        }
+        else {
+            errorcheckedout.setVisible(true);
+        }
+    }
+
+    public void getUsersCheckedOut(String username) throws ClassNotFoundException, SQLException {
+        final String DB_URL = "jdbc:mysql://db2.cma4gd0of8tf.us-east-2.rds.amazonaws.com/sche";
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(DB_URL, "WeberUH", "rootadmin");
+        PreparedStatement stmt = conn.prepareStatement("Select ISBN from CHECKEDOUT where CougarID = ?");
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            int ISBN = rs.getInt("ISBN");
+            getCheckedOutArray().add(ISBN);
+        }
     }
 
     public void mainmenu() throws IOException {
@@ -74,5 +156,17 @@ public class ViewController extends TypeofUser{ //view code borrowed from https:
         stage.setScene(scene);
     }
 
+    public void cart() throws IOException {
+        Parent root2 = FXMLLoader.load(getClass().getResource("cart.fxml"));
+        Stage stage = (Stage) cart.getScene().getWindow();
+        Scene scene = new Scene(root2);
+        stage.setScene(scene);
+    }
 
+    public void viewcheckedoutbutton() throws IOException {
+        Parent root2 = FXMLLoader.load(getClass().getResource("checkedout.fxml"));
+        Stage stage = (Stage) viewcheckedoutbutton.getScene().getWindow();
+        Scene scene = new Scene(root2);
+        stage.setScene(scene);
+    }
 }

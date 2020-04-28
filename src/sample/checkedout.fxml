@@ -4,11 +4,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="406.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CartController">
+<AnchorPane prefHeight="406.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CheckedOutController">
    <children>
       <TableView fx:id="tv1" layoutX="24.0" layoutY="24.0" prefHeight="336.0" prefWidth="576.0" />
       <Button fx:id="mainmenubutton" layoutX="24.0" layoutY="371.0" mnemonicParsing="false" onAction="#mainmenu" text="Exit to Main Menu" />
-      <Button fx:id="checkoutbutton" layoutX="534.0" layoutY="371.0" mnemonicParsing="false" onAction="#checkout" text="Checkout" />
+      <Button fx:id="viewbutton" layoutX="147.0" layoutY="371.0" mnemonicParsing="false" onAction="#viewbutton" text="Exit to Library Browser" />
    </children>
 </AnchorPane>
